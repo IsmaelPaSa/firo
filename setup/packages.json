@@ -14,7 +14,11 @@
             "kvantum-theme-materia",
             "python-pywal",
             "brightnessctl",
-            "sshfs"
+            "sshfs",
+            "inter-font",
+            "bitwarden",
+            "bluez",
+            "bluez-utils"
         ]
     },
     "aur": {
@@ -86,7 +90,11 @@
             "fastfetch",
             "hyprshot",
             "antigen",
-            "firefox"
+            "firefox",
+            "ttf-jetbrains-mono-nerd",
+            "adw-gtk3",
+            "python-pywalfox",
+            "authy"
         ]
     }
 }
