@@ -49,9 +49,10 @@ __Solo para ```Arch Linux``` puro.__
 - [ ] Instalacion de paquetes para ```Nvidia```.
 - [ ] Optimizaciones generales.
 - [ ] Colores generados para ```GTK``` y ```QT```.
-- [ ] Idiomas preconfigurados.
 - [ ] Mejorar el instalador.
 
 ## Limitaciones
 - Los temas en ```QT``` estan manejados por ```Kvantum```, por lo cual es necesario un reinicio en las aplicaciones para que el nuevo tema haga efecto.
+- ```VS Code``` requiere que se configure la fuente y la barra de titulo.
+- ```Pywalfox``` requiere un ajuste para el tema claro (*texto del mismo color del fondo*).
 
