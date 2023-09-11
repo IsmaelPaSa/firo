@@ -63,18 +63,18 @@ if __name__ == "__main__":
     CHSH_CMD = "chsh $USER -s $(which zsh)"
     SUDO_CMD = packages["sudo"]
 
-    # Copy Firo Folder
-    copy_dir(CURRENT_FOLDER, FIRO_FOLDER)
+    ARCH_CMD = packages["arch"]["command"]
+    ARCH_INSTALL_CMD = packages["arch"]["install"]
+    ARCH_EXTRAS_CMD = packages["arch"]["extras"]
+    ARCH_PACKAGES_LIST = packages["arch"]["packages"]
+    ARCH_PACKAGES = " ".join(ARCH_PACKAGES_LIST)
 
-    # Copy Single Config
-    for folder in CONFIG_FOLDERS:
-        copy_dir(*mk_config_path(folder))
+    AUR_CMD = packages["aur"]["command"]
+    AUR_INSTALL_CMD = packages["aur"]["install"]
+    AUR_EXTRAS_CMD = packages["aur"]["extras"]
+    AUR_PACKAGES_LIST = packages["aur"]["packages"]
+    AUR_PACKAGES = " ".join(AUR_PACKAGES_LIST)
 
-    # Executable permissions
-    exec_cmd(f"{CHMOD_CMD} {FIRO_FOLDER}")
-
-    # Set initial background
-    exec_cmd(f"{expand(FIRO_BIN_CMD)} {FIRO_WALLPAPER_CMD} {expand(INITIAL_WALLPAPER_FILE)}")
-
-    # Switch to zsh
-    exec_cmd(f"{CHSH_CMD}")
+    # Install packages
+    exec_cmd(f"{SUDO_CMD} {ARCH_CMD} {ARCH_INSTALL_CMD} {ARCH_PACKAGES} {ARCH_EXTRAS_CMD}")
+    exec_cmd(f"{AUR_CMD} {AUR_INSTALL_CMD} {AUR_PACKAGES} {AUR_EXTRAS_CMD}")

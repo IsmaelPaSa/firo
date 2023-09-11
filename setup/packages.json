@@ -20,7 +20,7 @@
     "aur": {
         "command": "paru",
         "install": "-S",
-        "extras": "",
+        "extras": "--needed --noconfirm",
         "packages": [
             "hyprland",
             "hyprpicker",
@@ -86,7 +86,7 @@
             "fastfetch",
             "hyprshot",
             "antigen",
-            "abricotine"
+            "firefox"
         ]
     }
 }
