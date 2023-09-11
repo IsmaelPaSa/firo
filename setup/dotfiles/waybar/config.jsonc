@@ -1,0 +1,160 @@
+//   
+//   ███████╗██╗██╗      ██████╗ 
+//   ██╔════╝██║██║     ██╔═══██╗
+//   █████╗  ██║██║     ██║   ██║
+//   ██╔══╝  ██║██║     ██║   ██║
+//   ██║     ██║███████╗╚██████╔╝
+//   ╚═╝     ╚═╝╚══════╝ ╚═════╝ 
+//    
+
+{
+  "layer": "top",
+  "position": "top",
+  "margin": "8 8 0",
+  "mod": "dock",
+  "exclusive": true,
+  // "passthrough": false,
+  "gtk-layer-shell": true,
+  "height": 48,
+  "modules-left": [
+    "clock",
+    "hyprland/workspaces"
+  ],
+  "modules-center": [
+    "hyprland/window"
+  ],
+  "modules-right": [
+    "network",
+    "bluetooth",
+    "battery",
+    "backlight",
+    "pulseaudio",
+    "pulseaudio#microphone",
+    "tray"
+  ],
+  "include": [],
+  "hyprland/window": {
+    "format": "{}"
+  },
+  "wlr/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "on-click": "activate",
+    "persistent_workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": [],
+      "7": [],
+      "8": [],
+      "9": [],
+      "10": []
+    }
+  },
+  "tray": {
+    "icon-size": 18,
+    "spacing": 12
+  },
+  "clock": {
+    "format": "{:  %R    %e/%m}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{icon}  {percent}%",
+    "format-icons": [
+      "󰃞",
+      "󰃟",
+      "󰃠"
+    ],
+    "on-scroll-up": " ~/.firo/bin/firo brightness inc",
+    "on-scroll-down": " ~/.firo/bin/firo brightness dec",
+    "min-length": 6,
+    "tooltip-format": "Brillo al {percent}%"
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 20
+    },
+    "format": "{icon}  {capacity}%",
+    "format-charging": "  {capacity}%",
+    "format-plugged": "  {capacity}%",
+    "format-alt": "{icon}  {time}",
+    "tooltip-format": "Aproximadamente {time}",
+    "tooltip-format-charging": "Cargando",
+    "tooltip-format-plugged": "Conectado",
+    "format-icons": [
+      "󰂎",
+      "󰁺",
+      "󰁻",
+      "󰁼",
+      "󰁽",
+      "󰁾",
+      "󰁿",
+      "󰂀",
+      "󰂁",
+      "󰂂",
+      "󰁹"
+    ]
+  },
+  "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    // "tooltip": false,
+    "format-muted": "  MUTE",
+    "on-click": "~/.firo/bin/firo audio speaker mute",
+    "on-click-right": "pavucontrol",
+    "on-scroll-up": "~/.firo/bin/firo audio speaker inc",
+    "on-scroll-down": "~/.firo/bin/firo audio speaker dec",
+    "scroll-step": 5,
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    }
+  },
+  "pulseaudio#microphone": {
+    "format": "{format_source}",
+    "format-source": "  {volume}%",
+    "format-source-muted": "  MUTE",
+    "on-click": "~/.firo/bin/firo audio mic mute",
+    "on-click-right": "pavucontrol",
+    "on-scroll-up": "~/.firo/bin/firo audio mic inc",
+    "on-scroll-down": "~/.firo/bin/firo audio mic dec",
+    "scroll-step": 5
+  },
+  "network": {
+    // "interface": "wlp2*", // (Optional) To force the use of this interface
+    "format-wifi": "  {signalStrength}%",
+    "format-ethernet": "  {ipaddr}/{cidr}",
+    "format-linked": "  {ifname} (SIN IP)",
+    "format-disconnected": "  DESCONECTADO",
+    "format-alt": "  {ifname}@{ipaddr}/{cidr}",
+    "tooltip-format": "Conectado a {essid}"
+  },
+  "bluetooth": {
+    "format": "  {status}",
+    "format-alt": "  {controller_alias}",
+    "format-disabled": "  APAGADO",
+    "format-on": "  OK",
+    "format-off": "  APAGADO",
+    "format-connected": " {num_connections}",
+    "tooltip-format": "Visible como {controller_alias}",
+    "tooltip-format-on": "Visible como {controller_alias}",
+    "tooltip-format-off": "Apagado",
+    "tooltip-format-disabled": "Deshabilitado",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}"
+  }
+}

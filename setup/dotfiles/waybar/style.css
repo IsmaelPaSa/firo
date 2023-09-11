@@ -1,0 +1,136 @@
+/*
+
+    ███████╗██╗██╗      ██████╗ 
+    ██╔════╝██║██║     ██╔═══██╗
+    █████╗  ██║██║     ██║   ██║
+    ██╔══╝  ██║██║     ██║   ██║
+    ██║     ██║███████╗╚██████╔╝
+    ╚═╝     ╚═╝╚══════╝ ╚═════╝ 
+
+*/
+
+@import "colors.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    font-family: "JetBrainsMono Nerd Font";
+    font-weight: normal;
+    font-size: 16px;
+}
+
+#window,
+#clock,
+#battery,
+#pulseaudio,
+#network,
+#bluetooth,
+#workspaces,
+#tray,
+#backlight,
+tooltip label,
+#workspaces button.active {
+    color: @foreground;
+}
+
+#window:hover,
+#clock:hover,
+#battery:hover,
+#pulseaudio:hover,
+#network:hover,
+#bluetooth:hover,
+#workspaces:hover,
+#tray:hover,
+#backlight:hover,
+tooltip label:hover,
+#workspaces button.active :hover{
+    color: #ff0000;
+}
+
+#window,
+#clock,
+#battery,
+#pulseaudio,
+#network,
+#bluetooth,
+#workspaces,
+#tray,
+#backlight {
+    padding: 0px;
+    margin: 0px 16px;
+}
+
+/* Window */
+window#waybar {
+    border-radius: 8px;
+    background: @background;
+}
+
+window#waybar:hover {
+    background: #ff0000;
+}
+
+/* Tooltip */
+
+tooltip {
+    background: @background;
+    border-radius: 8px;
+}
+
+tooltip label {
+    text-shadow: none;
+}
+
+/* Workspace */
+#workspaces button {
+    background: @color0;
+    color: @color8;
+}
+
+#workspaces button.active {
+}
+
+#workspaces button.focused {
+    color: @color3;
+}
+
+#workspaces button.urgent {
+    color: @color7;
+}
+
+#workspaces button:hover {
+    color: @color1;
+}
+
+/* Icons */
+
+#window {
+}
+
+#clock {
+}
+
+#battery {
+}
+
+#pulseaudio {
+}
+
+#pulseaudio.microphone {
+}
+
+#network {
+}
+
+#bluetooth {
+} 
+
+#workspaces {
+}
+
+#tray {
+}
+
+#backlight {
+}

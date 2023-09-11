@@ -1,0 +1,12 @@
+{
+    "config": {
+        "hyprland": "~/.config/hypr/",
+        "waybar": "~/.config/waybar/",
+        "swaync": "~/.config/swaync/",
+        "kitty": "~/.config/kitty/",
+        "code": "~/.config/.vscode/",
+        "zsh": "~/",
+        "swaylock": "~/.config/swaylock/",
+        "swayidle": "~/.config/swayidle/"
+    }
+}
