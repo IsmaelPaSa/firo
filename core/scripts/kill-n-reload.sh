@@ -28,7 +28,7 @@ kill_n_restart() {
 
 only_restart() {
     task=$1
-    $task
+    $task &
 }
 
 if [ "$#" -ne 0 ]; then

@@ -3,7 +3,7 @@
     "arch": {
         "command": "pacman",
         "install": "-S",
-        "extras": "--needed --noconfirm",
+        "extras": "--needed",
         "packages": [
             "nano",
             "git",
@@ -18,19 +18,20 @@
             "inter-font",
             "bitwarden",
             "bluez",
-            "bluez-utils"
+            "bluez-utils",
+            "xdg-user-dirs"
         ]
     },
     "aur": {
         "command": "paru",
         "install": "-S",
-        "extras": "--needed --noconfirm",
+        "extras": "--needed",
         "packages": [
             "hyprland",
             "hyprpicker",
             "waybar-hyprland",
             "swaync",
-            "nwg-look",
+            "nwg-look-bin",
             "wf-recorder",
             "wlogout",
             "wlsunset",
@@ -75,9 +76,6 @@
             "sddm",
             "swaylock-effects",
             "kvantum",
-            "obs-studio-rc",
-            "ffmpeg-obs",
-            "cef-minimal-obs-rc-bin",
             "pipewire",
             "pipewire-alsa",
             "pipewire-audio",
@@ -87,7 +85,7 @@
             "gst-plugin-pipewire",
             "pavucontrol",
             "cbonsai",
-            "fastfetch",
+            "fastfetch-bin",
             "hyprshot",
             "antigen",
             "firefox",
