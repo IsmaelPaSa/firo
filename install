@@ -54,6 +54,10 @@ def copy_folder(source, target):
         dirs_exist_ok=True
     )
 
+def create_empty_file(target: str):
+    with open(target, 'w'):
+        pass
+
 def copy_file(source: str, dest: str):
     dest_directory = os.path.dirname(dest)
     if not os.path.exists(dest_directory):
@@ -91,6 +95,8 @@ ADD_EXEC_PERMISSION_COMMAND = "chmod +x -R"
 NVIDIA_CONFIG_FILE = TARGET_FIRO_CONFIG_FOLDER + "nvidia.conf"
 INSTALLER_NVIDIA_CONFIG_FILE =  INSTALLER_NVIDIA_FOLDER + "nvidia.conf"
 
+FOR_PROFILE_FILE = USER_FOLDER + ".profile"
+
 if __name__ == "__main__":
     if args.only_packages and args.no_packages:
         cool_exit("Incompatible options!")
@@ -108,6 +114,7 @@ if __name__ == "__main__":
             copy_file(INSTALLER_NVIDIA_CONFIG_FILE, NVIDIA_CONFIG_FILE)
         exec_cmd(f"{ADD_EXEC_PERMISSION_COMMAND} {TARGET_FIRO_FOLDER}")
         exec_cmd(f"{FIRO_CMD} wallpaper {WALLPAPER_FILE} -l")
+        create_empty_file(FOR_PROFILE_FILE)
         if not args.no_final_commands:
             command_list = load_json(COMMANDS_FILE)
             exec_cmd_list(command_list["common"])
