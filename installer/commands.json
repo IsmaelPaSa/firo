@@ -1,7 +1,10 @@
 {
-    "post": [
+    "common": [
         "sudo systemctl enable cups",
         "sudo systemctl start cups",
-        "chsh $USER -s $(which fish)"
+        "sudo chsh $USER -s $(which fish)"
+    ],
+    "nvidia": [
+        
     ]
 }

@@ -21,6 +21,10 @@ def exec_cmd(cmd: str):
         shell=True
     )
 
+def exec_cmd_list(commands: list):
+    for command in commands:
+        exec_cmd(f"{command}")    
+
 def _install_packages(sudo:str, command: str, magic_word: str, packages: list):
     packages = " ".join(packages)
     if sudo:
@@ -50,6 +54,9 @@ def copy_folder(source, target):
         dirs_exist_ok=True
     )
 
+def copy_file(source: str, dest: str):
+    shutil.copy(source, dest)
+
 parser = argparse.ArgumentParser(
     description="Installs Firo",
     epilog="Thanks for using Firo!",
@@ -58,21 +65,28 @@ parser = argparse.ArgumentParser(
 parser.add_argument("-op", "--only-packages", action="store_true", help="Only install packages")
 parser.add_argument("-np", "--no-packages", action="store_true", help="Skip the installation of packages")
 parser.add_argument("-nv", "--nvidia", action="store_true", help="Prepare the installation for Nvidia")
+parser.add_argument("-nfc", "--no-final-commands", action="store_true", help="Skip the execution of post-installation commands")
 args = parser.parse_args()
 
 HERE_PATH = expand("./") + "/"
 USER_FOLDER = expand("~/") + "/"
 
 TARGET_FIRO_FOLDER = USER_FOLDER + ".firo/"
+TARGET_FIRO_CONFIG_FOLDER = TARGET_FIRO_FOLDER + "config/"
 INSTALLER_FIRO_FOLDER = HERE_PATH + "firo/"
 INSTALL_FOLDER = HERE_PATH + "installer/"
 PACKAGES_FILE = INSTALL_FOLDER + "packages.json"
+COMMANDS_FILE = INSTALL_FOLDER + "commands.json"
+INSTALLER_NVIDIA_FOLDER = INSTALL_FOLDER + "nvidia/"
 INSTALLER_DOTFILES_FOLDER = INSTALL_FOLDER + "dotfiles/"
 TARGET_DOTFILES_FOLDER = USER_FOLDER + ".config/"
 FIRO_CMD = TARGET_FIRO_FOLDER + "bin/firo"
 WALLPAPER_FILE = INSTALL_FOLDER + "wallpaper.jpg"
 
 ADD_EXEC_PERMISSION_COMMAND = "chmod +x -R"
+
+NVIDIA_CONFIG_FILE = TARGET_FIRO_CONFIG_FOLDER + "nvidia.conf"
+INSTALLER_NVIDIA_CONFIG_FILE =  INSTALLER_NVIDIA_FOLDER + "nvidia.conf"
 
 if __name__ == "__main__":
     if args.only_packages and args.no_packages:
@@ -87,5 +101,12 @@ if __name__ == "__main__":
     if not args.only_packages:
         copy_folder(INSTALLER_FIRO_FOLDER, TARGET_FIRO_FOLDER)
         copy_folder(INSTALLER_DOTFILES_FOLDER, TARGET_DOTFILES_FOLDER)
+        if args.nvidia:
+            copy_file(INSTALLER_NVIDIA_CONFIG_FILE, NVIDIA_CONFIG_FILE)
         exec_cmd(f"{ADD_EXEC_PERMISSION_COMMAND} {TARGET_FIRO_FOLDER}")
         exec_cmd(f"{FIRO_CMD} wallpaper {WALLPAPER_FILE} -l")
+        if not args.no_final_commands:
+            command_list = load_json(COMMANDS_FILE)
+            exec_cmd_list(command_list["common"])
+            if args.nvidia:
+                exec_cmd_list(command_list["nvidia"])
