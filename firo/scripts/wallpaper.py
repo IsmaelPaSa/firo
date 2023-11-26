@@ -233,6 +233,9 @@ def write_lines(path:str, lines: list):
             my_file.write(f"{line}\n")
 
 def copy_file(source: str, dest: str):
+    dest_directory = os.path.dirname(dest)
+    if not os.path.exists(dest_directory):
+        os.makedirs(dest_directory)
     shutil.copy(source, dest)
 
 parser = argparse.ArgumentParser(
