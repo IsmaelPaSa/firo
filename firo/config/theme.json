@@ -1,0 +1,14 @@
+{
+    "gtk": {
+        "dark": "adw-gtk3-dark",
+        "light": "adw-gtk3",
+        "dir":"/usr/share/themes/",
+        "colored": true
+    },
+    "kvantum": {
+        "dark": "MateriaDark",
+        "light": "MateriaLight",
+        "dir":"/usr/share/Kvantum/",
+        "colored": false
+    }
+}

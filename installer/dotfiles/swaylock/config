@@ -1,0 +1,39 @@
+# image=~/.firo/background
+clock
+indicator
+# effect-blur=5x5
+font=SF Mono
+# font-size=16
+
+indicator-radius=256
+indicator-thickness=8
+timestr=%H:%M
+datestr=%d/%m
+
+color=000000
+key-hl-color=000000
+separator-color=000000
+
+inside-color=000000
+inside-clear-color=000000
+inside-caps-lock=000000
+inside-ver-color=000000
+inside-wrong-color=000000
+
+line-color=000000
+line-clear-color=000000
+line-caps-lock=000000
+line-ver-color=000000
+line-wrong-color=000000
+
+ring-color=ffffff
+# ring-clear-color=ffffff
+ring-caps-lock=ffffff
+# ring-ver-color=ffffff
+# ring-wrong-color=ffffff
+
+text-color=ffffff
+text-clear-color=ffffff
+text-caps-lock=ffffff
+text-ver-color=000000
+text-wrong-color=ffffff

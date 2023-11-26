@@ -1,0 +1,69 @@
+@import "colors.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    font-family: "SF Mono, JetBrainsMono Nerd Font";
+    font-weight: normal;
+    font-size: 14px;
+}
+
+#window:hover,
+#clock:hover,
+#battery:hover,
+#pulseaudio:hover,
+#network:hover,
+#bluetooth:hover,
+#tray:hover,
+#backlight:hover,
+#workspaces :hover{
+    color: @color7;
+    background: none;
+}
+
+#window,
+#clock,
+#battery,
+#pulseaudio,
+#network,
+#bluetooth,
+#workspaces,
+#tray,
+#backlight,
+tooltip label,
+#workspaces button {
+    color: @foreground;
+}
+
+#clock,
+#workspaces {
+    margin-left: 20px;
+}
+
+#window {
+    margin: 0px 20px;
+}
+
+#battery,
+#pulseaudio,
+#network,
+#bluetooth,
+#tray,
+#backlight {
+    margin-right: 20px;
+}
+
+window#waybar,
+tooltip  {
+    border-radius: 8px;
+    background: @background;
+}
+
+tooltip label {
+    text-shadow: none;
+}
+
+#workspaces button.active {
+    color: @color4;
+}

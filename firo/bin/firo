@@ -1,0 +1,39 @@
+#!/usr/bin/python
+
+import sys
+import subprocess
+import argparse
+import os
+
+def expand(path: str):
+    return os.path.abspath(os.path.expanduser(path))
+
+FIRO_FOLDER = expand("~/.firo/") + "/"
+FIRO_SCRIPT_FOLDER = FIRO_FOLDER + "scripts/"
+
+SCRIPTS = {
+    "brightness": "brightness.sh",
+    "audio": "audio.sh",
+    "power": "power.sh",
+    "screenshot": "screenshot.sh",
+    "wallpaper": "wallpaper.py",
+    "launcher": "launcher.sh"
+}
+
+parser = argparse.ArgumentParser(
+    # prog="ls",
+    description="Firo Main",
+    epilog="Thanks for using Firo!",
+    allow_abbrev=False
+)
+parser.add_argument("program")
+parser.add_argument("args", nargs=argparse.REMAINDER)
+args = parser.parse_args()
+
+if __name__ == "__main__":
+    try:
+        program_executable = FIRO_SCRIPT_FOLDER + SCRIPTS[args.program]
+        subprocess.run([program_executable] + args.args)
+    except Exception:
+        # print(f"Error: '{program_name}' not found or not executable.")
+        pass

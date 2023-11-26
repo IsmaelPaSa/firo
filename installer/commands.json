@@ -1,0 +1,7 @@
+{
+    "post": [
+        "sudo systemctl enable cups",
+        "sudo systemctl start cups",
+        "chsh $USER -s $(which fish)"
+    ]
+}

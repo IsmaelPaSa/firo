@@ -1,0 +1,5 @@
+timeout 360 '~/.firo/bin/firo power lock'
+timeout 720 'hyprctl dispatch dpms off'
+timeout 12000 '~/.firo/bin/firo power suspend'
+after-resume 'hyprctl dispatch dpms on'
+before-sleep '~/.firo/bin/firo power lock'

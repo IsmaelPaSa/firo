@@ -1,0 +1,91 @@
+#!/usr/bin/python
+
+import argparse
+import os
+import json
+import sys
+import shutil
+import subprocess
+
+def expand(path: str):
+    return os.path.abspath(os.path.expanduser(path))
+
+def load_json(path: str):
+    with open(path, "r") as json_file:
+        data = json.load(json_file)
+    return data
+
+def exec_cmd(cmd: str):
+    subprocess.run(
+        cmd,
+        shell=True
+    )
+
+def _install_packages(sudo:str, command: str, magic_word: str, packages: list):
+    packages = " ".join(packages)
+    if sudo:
+        command = "sudo " + command
+    if packages:
+        exec_cmd(f"{command} {magic_word} {packages} --needed")
+
+def install_aur_packages(packages):
+    _install_packages(False, "paru", "-S", packages)
+
+def install_packages(packages):
+    _install_packages(True, "pacman", "-S", packages)
+
+def cool_exit(msg: str):
+    print(msg)
+    sys.exit(0)
+
+def install_group(group: list):
+    install_packages(group["arch"])
+    install_aur_packages(group["aur"])   
+
+def copy_folder(source, target):
+    shutil.copytree(
+        source,
+        target,
+        copy_function=shutil.copy2,
+        dirs_exist_ok=True
+    )
+
+parser = argparse.ArgumentParser(
+    description="Installs Firo",
+    epilog="Thanks for using Firo!",
+    allow_abbrev=False
+)
+parser.add_argument("-op", "--only-packages", action="store_true", help="Only install packages")
+parser.add_argument("-np", "--no-packages", action="store_true", help="Skip the installation of packages")
+parser.add_argument("-nv", "--nvidia", action="store_true", help="Prepare the installation for Nvidia")
+args = parser.parse_args()
+
+HERE_PATH = expand("./") + "/"
+USER_FOLDER = expand("~/") + "/"
+
+TARGET_FIRO_FOLDER = USER_FOLDER + ".firo/"
+INSTALLER_FIRO_FOLDER = HERE_PATH + "firo/"
+INSTALL_FOLDER = HERE_PATH + "installer/"
+PACKAGES_FILE = INSTALL_FOLDER + "packages.json"
+INSTALLER_DOTFILES_FOLDER = INSTALL_FOLDER + "dotfiles/"
+TARGET_DOTFILES_FOLDER = USER_FOLDER + ".config/"
+FIRO_CMD = TARGET_FIRO_FOLDER + "bin/firo"
+WALLPAPER_FILE = INSTALL_FOLDER + "wallpaper.jpg"
+
+ADD_EXEC_PERMISSION_COMMAND = "chmod +x -R"
+
+if __name__ == "__main__":
+    if args.only_packages and args.no_packages:
+        cool_exit("Incompatible options!")
+    if not args.no_packages:
+        package_list = load_json(PACKAGES_FILE)
+        install_group(package_list["global"])
+        if(args.nvidia):
+            install_group(package_list["nvidia"])
+        else:
+            install_group(package_list["default"])
+    if not args.only_packages:
+        copy_folder(INSTALLER_FIRO_FOLDER, TARGET_FIRO_FOLDER)
+        copy_folder(INSTALLER_DOTFILES_FOLDER, TARGET_DOTFILES_FOLDER)
+        exec_cmd(f"{ADD_EXEC_PERMISSION_COMMAND} {TARGET_FIRO_FOLDER}")
+        exec_cmd(f"{FIRO_CMD} wallpaper {WALLPAPER_FILE} -l")
