@@ -49,9 +49,10 @@ def mk_firo_colors(colors: dict):
         "less": less
     }
 
-def pywal_color_mapper(colors):
+def pywal_color_mapper(colors, wallpaper):
     return {
         "alpha": "100",
+        "wallpaper": wallpaper,
         "special": {
             "background": colors["background"],
             "foreground": colors["foreground"],
@@ -292,7 +293,7 @@ if __name__ == "__main__":
     write_lines(ROFI_COLOR_FILE, generated_colors["rofi"])
     write_lines(LESS_COLOR_FILE, generated_colors["less"])
     write_json(JSON_COLOR_FILE, colors_json)
-    write_json(PYWAL_COLOR_FILE, pywal_color_mapper(colors_json))
+    write_json(PYWAL_COLOR_FILE, pywal_color_mapper(colors_json, USR_BACKGROUND))
 
     for request in REQUEST_COPY:
         copy_file(

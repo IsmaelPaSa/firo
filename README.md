@@ -53,7 +53,7 @@ _Installer + DotFiles + Manager - V2_
 ## Limitations
 
 - ```QT``` themes are managed by ```Kvantum```, requiring a restart of applications for the new theme to take effect.
-- ```Pywalfox``` requires adjustment for the light theme (*text of the same color as the background*).
+- ```Pywalfox``` requires adjustment for the light theme (*bc by default the text has the same color as the background*).
 
 ## Screenshots
 
@@ -61,6 +61,8 @@ _Installer + DotFiles + Manager - V2_
 ![preview](./assets/main_two.png)
 ![preview](./assets/main_three.png)
 ![preview](./assets/main_four.png)
+![preview](./assets/main_five.png)
+![preview](./assets/main_six.png)
 _Some of ```Fyu``` work..._
 ![preview](./assets/ok_one.png)
 ![preview](./assets/ok_two.png)
