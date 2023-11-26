@@ -2,6 +2,8 @@
     "common": [
         "sudo systemctl enable cups",
         "sudo systemctl start cups",
+        "sudo systemctl start bluetooth",
+        "sudo systemctl enable bluetooth",
         "sudo chsh $USER -s $(which fish)"
     ],
     "nvidia": [
