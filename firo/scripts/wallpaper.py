@@ -49,7 +49,7 @@ def mk_firo_colors(colors: dict):
         "less": less
     }
 
-def pywal_color_mapper(colors, wallpaper):
+def pywal_json_color_mapper(colors, wallpaper):
     return {
         "alpha": "100",
         "wallpaper": wallpaper,
@@ -77,6 +77,26 @@ def pywal_color_mapper(colors, wallpaper):
             "color15": colors["color15"]
         }
     }
+
+def pywal_colors_color_mapper(colors):
+    return [
+        colors["color0"],
+        colors["color1"],
+        colors["color2"],
+        colors["color3"],
+        colors["color4"],
+        colors["color5"],
+        colors["color6"],
+        colors["color7"],
+        colors["color8"],
+        colors["color9"],
+        colors["color10"],
+        colors["color11"],
+        colors["color12"],
+        colors["color13"],
+        colors["color14"],
+        colors["color15"]
+    ]
 
 def _rgb_to_hex(red, green, blue):
     return '#%02x%02x%02x' % (red, green, blue)
@@ -267,6 +287,7 @@ THEME_SCRIPT = SCRIPTS_FOLDER + "set-theme.sh"
 RELOAD_SCRIPT = SCRIPTS_FOLDER + "do-reload.sh"
 
 WAL_JSON_COLOR_FILE = expand("~/.cache/wal/colors.json")
+WAL_COLORS_COLOR_FILE = expand("~/.cache/wal/colors")
 SWAYNC_COLOR_FILE = expand("~/.config/swaync/colors.css")
 WAYBAR_COLOR_FILE = expand("~/.config/waybar/colors.css")
 
@@ -289,6 +310,8 @@ if __name__ == "__main__":
     
     colors_json = mk_color_palette(USR_BACKGROUND, LIGHT_MODE)
     generated_colors = mk_firo_colors(colors_json)
+    wal_json_colors_mapped = pywal_json_color_mapper(colors_json, USR_BACKGROUND)
+    wal_colors_colors_mapped = pywal_colors_color_mapper(colors_json)
 
     write_lines(HYRP_COLOR_FILE, generated_colors["hypr"])
     write_lines(KITTY_COLOR_FILE, generated_colors["kitty"])
@@ -296,7 +319,8 @@ if __name__ == "__main__":
     write_lines(ROFI_COLOR_FILE, generated_colors["rofi"])
     write_lines(LESS_COLOR_FILE, generated_colors["less"])
     write_json(JSON_COLOR_FILE, colors_json)
-    write_json(PYWAL_COLOR_FILE, pywal_color_mapper(colors_json, USR_BACKGROUND))
+    write_json(PYWAL_COLOR_FILE, wal_json_colors_mapped)
+    write_lines(WAL_COLORS_COLOR_FILE, wal_colors_colors_mapped)
 
     for request in REQUEST_COPY:
         copy_file(

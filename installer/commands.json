@@ -4,7 +4,8 @@
         "sudo systemctl start cups",
         "sudo systemctl start bluetooth",
         "sudo systemctl enable bluetooth",
-        "sudo chsh $USER -s $(which fish)"
+        "sudo chsh $USER -s $(which fish)",
+        "echo 'export PATH=$PATH:~/.firo/bin' >> ~/.profile"
     ],
     "nvidia": [
         
