@@ -67,7 +67,9 @@
             "swayidle",
             "less",
             "nvtop",
-            "gnome-calculator"
+            "gnome-calculator",
+            "gvfs",
+            "tumbler"
         ],
         "aur": [
             "ocs-url",
