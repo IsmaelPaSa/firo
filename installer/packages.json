@@ -69,7 +69,10 @@
             "nvtop",
             "gnome-calculator",
             "gvfs",
-            "tumbler"
+            "tumbler",
+            "noto-fonts-cjk",
+            "noto-fonts",
+            "noto-fonts-emoji"
         ],
         "aur": [
             "ocs-url",
