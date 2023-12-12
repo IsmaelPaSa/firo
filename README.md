@@ -1,8 +1,10 @@
 # Firo
 
+###### 2.1.0
+
 ![splash](./assets/splash.png)
 
-_Installer + DotFiles + Manager - V2_
+_Installer + DotFiles + Manager - V2.1_
 
 ## Main idea
 
@@ -13,7 +15,7 @@ _Installer + DotFiles + Manager - V2_
 - One-step installer.
 - Configuration in a single place.
 - Script-manager with the ```firo``` command.
-- ```Firefox```, ```VS Code```, ```Rofi```, ```Kitty```, and more colors based on the desktop background with its own color-collector: ```Fyu```.
+- ```Firefox```, ```VS Code```, ```Rofi```, ```Kitty```, and more colors based on the desktop background with its own color-extractor: ```Fyu```.
 - A pleasant and customizable environment.
 - Possibility to install with Nvidia optimizations using ```--nvidia``` in the installer.
 
@@ -49,6 +51,7 @@ _Installer + DotFiles + Manager - V2_
 
 - [ ] Generated colors for ```GTK``` and ```QT```.
 - [ ] Improve the installer (again).
+- [ ] Improve ```Fyu``` (again).
 
 ## Limitations
 
@@ -62,18 +65,17 @@ _Installer + DotFiles + Manager - V2_
 ![preview](./assets/main_three.png)
 ![preview](./assets/main_four.png)
 ![preview](./assets/main_five.png)
-![preview](./assets/main_six.png)
 _Some of ```Fyu``` work..._
-![preview](./assets/ok_one.png)
-![preview](./assets/ok_two.png)
-![preview](./assets/ok_three.png)
-![preview](./assets/ok_four.png)
-![preview](./assets/ok_five.png)
-![preview](./assets/ok_six.png)
-_Next, some problems with ```Fyu```..._
-![preview](./assets/error_one.png)
-![preview](./assets/error_two.png)
-![preview](./assets/error_three.png)
+![preview](./assets/light_one.png)
+![preview](./assets/light_two.png)
+![preview](./assets/light_three.png)
+![preview](./assets/light_four.png)
+![preview](./assets/light_five.png)
+![preview](./assets/dark_one.png)
+![preview](./assets/dark_two.png)
+![preview](./assets/dark_three.png)
+![preview](./assets/dark_four.png)
+![preview](./assets/dark_five.png)
 
 ## Firo command
 
@@ -85,4 +87,10 @@ _Next, some problems with ```Fyu```..._
 - Control the _power_ with ```firo power [action]```, ```action``` can be ```lock```, ```suspend```, ```reboot```, ```shutdown``` or ```logout```; this command is used by the power-menu, for example, use ```firo power reboot``` if you want to reboot.
 
 ## The end
-Thank you for considering using ```Firo```. It was not created with the intention of appealing to the masses but rather to quickly have an efficient and customizable desktop. I'm not very demanding, so you won't see too many fancy things. Any suggestions will be welcome. I'm thinking of including a menu for screenshots and considering options for adjusting both brightness and volume, although I still need to think about it. I should also mention that the image included in the installer is made with ```stable diffusion```, so credit goes to whoever deserves it. Finally (and to bring some closure), I will try to keep ```Firo``` updated to do a better job in more cases. If you come across an image where it does a terrible job, it will be greatly helpful to improve it.
+Version 2.1 has arrived, featuring a significant improvement to ```Fyu``` (the system that retrieves desktop background colors). In this new version, you won't encounter unreadable colors anymore.
+
+Once again, thank you for considering using ```Firo```. Our aim is not to reach large audiences; it's simply a personal project to create a pleasant and fast environment in ```Hyprland```.
+
+It's worth mentioning that the wallpaper included in this new release is brought to you thanks to ```stable diffusion```, so credit goes to the rightful owner.
+
+There are still quite interesting things to come, such as ```Fiyu II``` (a significant enhancement to ```Fyu```), menu for screenshots, optimizations (and improvements) to existing menus and more, but all in due time...

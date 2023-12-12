@@ -97,6 +97,9 @@ def pywal_colors_color_mapper(colors):
         colors["color14"],
         colors["color15"]
     ]
+#####
+
+
 
 def _rgb_to_hex(red, green, blue):
     return '#%02x%02x%02x' % (red, green, blue)
@@ -105,127 +108,201 @@ def _get_color_palette(src: str, quantity: int, quality: int):
     color_thief = ColorThief(src)
     return color_thief.get_palette(color_count=quantity, quality=quality)
 
-def _sort_by_hsv(color):
+def _get_color_luminance(color: tuple):
+    normalized_color = [c / 255.0 for c in color]
+    return 0.2126 * normalized_color[0] + 0.7152 * normalized_color[1] + 0.0722 * normalized_color[2]
+
+def _get_color_hsv(color: tuple):
     hsv_color = colorsys.rgb_to_hsv(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0)
-    return hsv_color[1], 1 - hsv_color[2]
+    return hsv_color[0], hsv_color[1], hsv_color[2]
 
-def _sort_by_bright(color):
-    hsv_color = colorsys.rgb_to_hls(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0)
-    return hsv_color[2]
+def _get_color_hsv_hue(color: tuple):
+    return _get_color_hsv(color)[0]
 
-def _sort_by_dom(color):
-    return max(enumerate(color), key=lambda x: x[1])[0]
+def _get_color_hsv_saturation(color: tuple):
+    return _get_color_hsv(color)[1]
 
-def _sort_by_saturation(color):
+def _get_color_hsv_value(color: tuple):
+    return _get_color_hsv(color)[2]
+
+def _get_color_saturation(color):
     hsv_color = colorsys.rgb_to_hsv(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0)
     return (1 - hsv_color[1]) * hsv_color[2]
 
-def _euc_distance(color_one, color_two):
-    return math.sqrt(sum((c1 - c2) ** 2 for c1, c2 in zip(color_one, color_two)))
+def _get_color_dominance(color):
+    return max(enumerate(color), key=lambda x: x[1])[0]
 
-def _get_whittest_and_darskest(colors):
-    white = (255, 255, 255)
-    black = (0, 0, 0)
-    wnd = {}
-    wnd["whittest"] = min(colors, key=lambda color: _euc_distance(color, white))
-    wnd["darkest"] = min(colors, key=lambda color: _euc_distance(color, black))
-    return wnd
+def _get_color_contrast(color_foreground: tuple, color_background: tuple):
+    def luminance(value):
+        value /= 255.0
+        if value <= 0.03928:
+            return value / 12.92
+        else:
+            return ((value + 0.055) / 1.055) ** 2.4
 
-def mk_color_palette(sauce: str, white_mode=True):
-    color_quantity = 24
-    color_quality = 16
-    colors = _get_color_palette(sauce, color_quantity, color_quality)
+    luminance_text = 0.2126 * luminance(color_foreground[0]) + 0.7152 * luminance(color_foreground[1]) + 0.0722 * luminance(color_foreground[2])
+    luminance_background = 0.2126 * luminance(color_background[0]) + 0.7152 * luminance(color_background[1]) + 0.0722 * luminance(color_background[2])
+
+    contrast = abs(luminance_text - luminance_background)
+    return contrast
+
+def _darken_color(color: tuple, factor: float):
+    return tuple(int(c * (1 - factor)) for c in color)
+
+def _lighten_color(color: tuple, factor: float):
+   return tuple(int(c + (255 - c) * factor) for c in color)
+
+def _get_readable_colors(colors: list, background_color: tuple, threshold: float):
+    readable_colors = []
+    unreadable_colors = []
+    for color in colors:
+        if _get_color_contrast(color, background_color) >= threshold:
+            readable_colors.append(color)
+        else:
+            unreadable_colors.append(color)
+
+    return readable_colors, unreadable_colors
+
+'''
+Base Components
+'''
+
+def _make_color_palette(sauce: str, mode: str, color_rules: dict):
+    COLOR_QUANTITY = color_rules["quantity"]
+    COLOR_QUALITY = color_rules["quality"]
+
+    READABLE_ON_DARK_THRESHOLD = color_rules["readable"]["dark"]
+    READABLE_ON_LIGHT_THRESHOLD = color_rules["readable"]["light"]
+
+    IS_DARK_THRESHOLD = color_rules["is_dark"]
+    IS_LIGHT_THRESHOLD =  color_rules["is_light"]
+
+    DARKEN_FACTOR = color_rules["factor"]["darken"]
+    LIGHTEN_FACTOR = color_rules["factor"]["lighten"]
+
+    MIN_DIFFERENT_COLORS = 7
+
+    SAME_DARK_RANGE = 5
     
-    by_hsv = sorted(colors, key=_sort_by_hsv)
-    by_bright = sorted(colors, key=_sort_by_bright)
-    by_saturation = sorted(colors, key=_sort_by_saturation)
-    by_dom = sorted(colors, key=_sort_by_dom)
-    wnd = _get_whittest_and_darskest(colors)
+    MODES = ["DARK", "LIGHT", "AUTO"]
+
+    palette = _get_color_palette(sauce, COLOR_QUANTITY, COLOR_QUALITY)
+    by_luminance = sorted(palette, key=_get_color_luminance)
+    by_saturation = sorted(palette, key=_get_color_saturation)
+    by_hsv_value = sorted(palette, key=_get_color_hsv_value)
+
+    # To do: check mode when mode is AUTO
+    IS_DARK = mode == "DARK" 
+
+    lightest_color = by_saturation[-1]
+    darkest_color = by_saturation[0] if IS_DARK else by_luminance[0]
+
+    if IS_DARK:
+        if not by_saturation[0] in by_hsv_value[:SAME_DARK_RANGE]:
+            darkest_color = by_hsv_value[0]
+    else:
+        try:
+            by_luminance.remove(by_hsv_value[-1])
+        except:
+            pass
+
+    try:
+        by_luminance.remove(lightest_color)
+    except:
+        pass
+    try:
+        by_luminance.remove(darkest_color)
+    except:
+        pass
     
-    final = {}
 
-    def popman(to_pop):
-        try:
-            by_hsv.remove(to_pop)
-        except:
-            pass
-        try:
-            by_bright.remove(to_pop)
-        except:
-            pass
-        try:
-            by_saturation.remove(to_pop)
-        except:
-            pass
-        try:
-            by_dom.remove(to_pop)
-        except:
-            pass
+    while True:
+        darkest_color_luminance = _get_color_luminance(darkest_color)
+        if darkest_color_luminance < IS_DARK_THRESHOLD:
+            break
+        darkest_color = _darken_color(darkest_color, DARKEN_FACTOR)
+    while True:
+        lightest_color_luminance = _get_color_luminance(lightest_color)
+        if lightest_color_luminance > IS_LIGHT_THRESHOLD:
+            break
+        lightest_color = _lighten_color(lightest_color, LIGHTEN_FACTOR)
 
-    fc = {}
-    if white_mode:
+    background_color = darkest_color if IS_DARK else lightest_color
+    foreground_color = lightest_color if IS_DARK else darkest_color
+
+    readable_colors, unreadable_colors = _get_readable_colors(
+        by_luminance,
+        background_color,
+        READABLE_ON_DARK_THRESHOLD if IS_DARK else READABLE_ON_LIGHT_THRESHOLD
+    )
+
+    # To do: make colors from unreadable 
+    # while len(readable_colors) <= MIN_DIFFERENT_COLORS:
+    #     pass
+
+
+
+    by_hsv_saturation = sorted(readable_colors, key=_get_color_hsv_saturation)
+    primary_colors = by_hsv_saturation
+    if IS_DARK:
+        by_hsv_value = sorted(readable_colors, key=_get_color_hsv_value, reverse=True)
+        secondary_colors = by_hsv_value
+    else:
+        by_dominance = sorted(readable_colors, key=_get_color_dominance)
+        secondary_colors = by_dominance
+
+    by_hsv_hue = sorted(readable_colors, key=_get_color_hsv_hue)
+    extra_colors = by_hsv_hue
+
+    return {
+        "background": background_color,
+        "foreground": foreground_color,
+        "cursor": foreground_color,
+        "selection_foreground": background_color,
+        "selection_background": foreground_color,
+        "color0":   background_color, # Black
+        "color8":   extra_colors[-1],
+
+        "color1":   primary_colors[-1], # Red
+        "color9":   primary_colors[-1], 
+        "color2":   primary_colors[-2], # Green
+        "color10":  primary_colors[-2],
+        "color3":   primary_colors[-3], # Yellow
+        "color11":  primary_colors[-3],
+        "color4":   secondary_colors[0], # Blue
+        "color12":  secondary_colors[0],
+        "color5":   secondary_colors[1], # Magenta
+        "color13":  secondary_colors[1],
+        "color6":   secondary_colors[2], # Cyan
+        "color14":  secondary_colors[2],
         
+        "color7":   foreground_color, # White
+        "color15":  extra_colors[0],
+    }
 
-        fc["background"] = by_saturation[-1]
-        fc["foreground"] = wnd['darkest']
-        fc["cursor"] = fc["foreground"]
-
-
-        popman(fc["background"])
-        popman(fc["foreground"])
-        popman(by_bright[-1])
-        popman(by_saturation[-1])
-        
-
-        fc["color7"] = wnd['darkest']
-        fc["color15"] = fc["color7"]
-        fc["color0"] = fc["background"]
-        fc["color8"] = by_hsv[0]
-
-        popman(fc["color8"])
-        
-        for i in range(1, 4):
-            fc[f"color{i}"] = by_hsv[int(f"-{i}")]
-            fc[f"color{i+8}"] = fc[f"color{i}"]
-            fc[f"color{i+3}"] = by_dom[int(f"{i}")]
-            fc[f"color{i+8+3}"] = fc[f"color{i+3}"]
-    else: 
-
-
-        fc["background"] = by_saturation[0]
-        fc["foreground"] = by_saturation[-1]
-        fc["cursor"] = fc["foreground"]
+def make_color_palette(sauce: str, mode: str):
+    rules = {
+        "quantity": 24,
+        "quality": 16,
+        "readable": {
+            "dark": 0.0631,
+            "light": 0.271
+        },
+        "is_dark": 0.333,
+        "is_light": 0.666,
+        "factor": {
+            "darken": 0.1,
+            "lighten": 0.1
+        }
+    }
+    pre_color_palette = _make_color_palette(sauce, mode, rules)
+    color_palette = {}
+    for key in pre_color_palette:
+        color_palette[key] = _rgb_to_hex(*pre_color_palette[key])
+    return color_palette
 
 
-        popman(fc["background"])
-        popman(fc["foreground"])
-        popman(wnd["darkest"])
-        
-
-        fc["color7"] = wnd["whittest"]
-        fc["color15"] = fc["color7"]
-        fc["color0"] = fc["background"]
-        fc["color8"] = by_hsv[0]
-
-        popman(fc["color8"])
-        popman(fc["color7"])
-
-        for i in range(int(color_quantity/3)):
-            popman(by_bright[0])
-        for i in range(1, 4):
-            fc[f"color{i}"] = by_hsv[-1]
-            fc[f"color{i+8}"] = fc[f"color{i}"]
-            popman(fc[f"color{i}"])
-            fc[f"color{i+3}"] = by_saturation[-1]
-            fc[f"color{i+8+3}"] = fc[f"color{i+3}"]
-            popman(fc[f"color{i+3}"])
-
-    fc["selection_foreground"] = fc["background"]
-    fc["selection_background"] = fc["foreground"]
-
-    for key, value in fc.items():
-        final[key] = _rgb_to_hex(*value)
-    return final
+#####
 
 def expand(path: str):
     return os.path.abspath(os.path.expanduser(path))
@@ -306,9 +383,8 @@ if __name__ == "__main__":
     USR_BACKGROUND = expand(args.background)
     LIGHT_MODE = args.light
     copy_file(USR_BACKGROUND, FIRO_WALLPAPER_FILE)
-    exec_cmd(f"{WALLPAPER_SCRIPT} '{FIRO_WALLPAPER_FILE}' {'-l' if LIGHT_MODE else ''}")
     
-    colors_json = mk_color_palette(USR_BACKGROUND, LIGHT_MODE)
+    colors_json = make_color_palette(USR_BACKGROUND, "LIGHT" if LIGHT_MODE else "DARK")
     generated_colors = mk_firo_colors(colors_json)
     wal_json_colors_mapped = pywal_json_color_mapper(colors_json, USR_BACKGROUND)
     wal_colors_colors_mapped = pywal_colors_color_mapper(colors_json)
@@ -332,5 +408,5 @@ if __name__ == "__main__":
     
     themes = load_json(FIRO_THEME_FILE)
     exec_cmd(f"{THEME_SCRIPT} {themes['gtk']['light' if LIGHT_MODE else 'dark'] } {themes['kvantum']['light' if LIGHT_MODE else 'dark']} {'-l' if LIGHT_MODE else ''}")
-    
+    exec_cmd(f"{WALLPAPER_SCRIPT} '{FIRO_WALLPAPER_FILE}' {'-l' if LIGHT_MODE else ''}")
     exec_cmd(f"{RELOAD_SCRIPT}")
