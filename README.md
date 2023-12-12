@@ -1,8 +1,7 @@
 # Firo
-
 ###### 2.1.0
 
-![splash](./assets/splash.png)
+![splash](./assets/splash.jpg)
 
 _Installer + DotFiles + Manager - V2.1_
 
@@ -60,22 +59,22 @@ _Installer + DotFiles + Manager - V2.1_
 
 ## Screenshots
 
-![preview](./assets/main_one.png)
-![preview](./assets/main_two.png)
-![preview](./assets/main_three.png)
-![preview](./assets/main_four.png)
-![preview](./assets/main_five.png)
+![preview](./assets/main_one.jpg)
+![preview](./assets/main_two.jpg)
+![preview](./assets/main_three.jpg)
+![preview](./assets/main_four.jpg)
+![preview](./assets/main_five.jpg)
 _Some of ```Fyu``` work..._
-![preview](./assets/light_one.png)
-![preview](./assets/light_two.png)
-![preview](./assets/light_three.png)
-![preview](./assets/light_four.png)
-![preview](./assets/light_five.png)
-![preview](./assets/dark_one.png)
-![preview](./assets/dark_two.png)
-![preview](./assets/dark_three.png)
-![preview](./assets/dark_four.png)
-![preview](./assets/dark_five.png)
+![preview](./assets/light_one.jpg)
+![preview](./assets/light_two.jpg)
+![preview](./assets/light_three.jpg)
+![preview](./assets/light_four.jpg)
+![preview](./assets/light_five.jpg)
+![preview](./assets/dark_one.jpg)
+![preview](./assets/dark_two.jpg)
+![preview](./assets/dark_three.jpg)
+![preview](./assets/dark_four.jpg)
+![preview](./assets/dark_five.jpg)
 
 ## Firo command
 
@@ -94,3 +93,5 @@ Once again, thank you for considering using ```Firo```. Our aim is not to reach 
 It's worth mentioning that the wallpaper included in this new release is brought to you thanks to ```stable diffusion```, so credit goes to the rightful owner.
 
 There are still quite interesting things to come, such as ```Fiyu II``` (a significant enhancement to ```Fyu```), menu for screenshots, optimizations (and improvements) to existing menus and more, but all in due time...
+
+###### README 2.1.1

@@ -8,7 +8,6 @@
             "tree",
             "materia-kde",
             "kvantum-theme-materia",
-            "python-pywal",
             "brightnessctl",
             "inter-font",
             "bluez",
@@ -72,7 +71,11 @@
             "tumbler",
             "noto-fonts-cjk",
             "noto-fonts",
-            "noto-fonts-emoji"
+            "noto-fonts-emoji",
+            "xorg-xhost",
+            "python-scikit-learn",
+            "python-matplotlib",
+            "python-opencv"
         ],
         "aur": [
             "ocs-url",
@@ -92,7 +95,6 @@
             "adw-gtk3",
             "python-pywalfox",
             "rofi-lbonn-wayland",
-            "python-colorthief",
             "bass-fish"
         ]
     },
